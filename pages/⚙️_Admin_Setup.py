@@ -9,23 +9,18 @@ st.set_page_config(page_title="Ecosystem Analytics", page_icon="⚙️", layout=
 # =========================================================================
 correct_password = st.secrets["admin_security"]["admin_password"]
 
-# Initialize login states cleanly inside session storage arrays
 if "admin_authenticated" not in st.session_state:
     st.session_state["admin_authenticated"] = False
 
-# Draw the control tools inside the sidebar box container panel
 with st.sidebar:
     st.markdown("### 🔐 Admin Access Console")
-    
     if st.session_state["admin_authenticated"]:
         st.success("✓ Session Active")
-        # 🔴 LOGOUT ACTION BUTTON
         if st.button("❌ Logout from Admin Session", use_container_width=True):
             st.session_state["admin_authenticated"] = False
-            st.rerun() # Refresh app container to lock the system instantly
+            st.rerun()
     else:
         st.warning("🔒 Session Locked")
-        # Alternative input window directly inside the sidebar layout box
         sidebar_password = st.text_input("Enter Passcode:", type="password", key="sidebar_pass_input")
         if st.button("🔑 Login", use_container_width=True):
             if sidebar_password == correct_password:
@@ -34,22 +29,19 @@ with st.sidebar:
             else:
                 st.error("Incorrect Passcode")
 
-# Global access validation parameter check
 access_granted = st.session_state["admin_authenticated"]
 
 # =========================================================================
-# 🗄️ 2. MAIN SURFACE INTERFACE LAYOUT (DYNAMIC DISPLAY HOOK)
+# 🗄️ 2. MAIN SURFACE INTERFACE LAYOUT
 # =========================================================================
 st.title("⚙️ Bulk Webhook Configuration & Account Metrics")
-st.write("Analyze repository spikes and deploy configurations dynamically across your entire profile.")
+st.write("Analyze repository growth trends and deploy configurations dynamically across your entire profile.")
 
 if not access_granted:
-    # Main window display fallback screen if user is logged out
     st.markdown("---")
     st.info("### 🔑 Developer Portal Locked")
     st.write("Please use the input form fields inside the left sidebar panel to authenticate and unlock your analytical data monitors.")
     
-    # Optional fallback input block in the center screen if sidebar is closed
     center_password = st.text_input("Or enter password here to unlock:", type="password", key="center_pass_input")
     if center_password:
         if center_password == correct_password:
@@ -74,7 +66,7 @@ if access_granted:
             g = Github(github_token)
             authenticated_user = g.get_user()
             
-            with st.spinner("Analyzing repository historical data timelines..."):
+            with st.spinner("Analyzing repository growth metrics..."):
                 repositories = authenticated_user.get_repos(type="owner")
                 repo_data = []
                 
@@ -92,11 +84,18 @@ if access_granted:
             st.metric(label="Total Tracked Repositories Owned", value=total_repos)
             
             if not df.empty:
-                timeline_counts = df.groupby("Year_Month").size().reset_index(name="Repositories Created")
+                # 📈 NEW MATHEMATICAL LOGIC: Group and apply cumulative sum
+                timeline_counts = df.groupby("Year_Month").size().reset_index(name="Monthly Created")
                 timeline_counts = timeline_counts.sort_values("Year_Month")
                 
-                st.markdown("### 📈 Creation Spikes Chart")
-                st.line_chart(data=timeline_counts, x="Year_Month", y="Repositories Created", color="#ff4b4b")
+                # Creates a new climbing running total data matrix column row
+                timeline_counts["Total Repositories Accumulation"] = timeline_counts["Monthly Created"].cumsum()
+                
+                st.markdown("### 📈 Cumulative Repository Growth Chart")
+                st.info("This graph plots the steady upward accumulation of your repositories over time, proving continuous expansion.")
+                
+                # Plots the rising total line chart instead of monthly drops
+                st.line_chart(data=timeline_counts, x="Year_Month", y="Total Repositories Accumulation", color="#ff4b4b")
                 
                 with st.expander("👁️ View Raw Project Date Registry"):
                     st.dataframe(df.sort_values(by="Created_At", ascending=False), use_container_width=True)
@@ -161,7 +160,7 @@ st.markdown(
  .footer a:hover { 
      text-decoration: underline; 
      color: #FAFAFA; 
- } 
+ | } 
  .footer-separator { 
      color: #666; 
      margin: 0 5px; 
