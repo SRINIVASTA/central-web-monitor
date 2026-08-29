@@ -26,11 +26,11 @@ A **100% Web-Only, Serverless Metrics Dashboard** engineered to track live appli
 # 📖 The Project Narrative: Engineering at Scale
 
 ## 🔍 Chapter 1: The Problem of Scale
-Like many passionate developers, my digital footprint expanded rapidly over a multi-year development cycle. Before long, my workspace had grown to an extensive matrix containing **93 distinct GitHub repositories** alongside multiple cloud-hosted **Streamlit web applications**. 
+Like many passionate developers, my digital footprint expanded rapidly over a multi-year development cycle. Before long, my workspace had grown to an extensive matrix containing ** distinct GitHub repositories** alongside multiple cloud-hosted **Streamlit web applications**. 
 
 However, as this cloud footprint grew, two critical operational bottlenecks emerged:
 1. **Zero Visibility:** I had no metrics or telemetry indicating whether recruiters, clients, or interviewers were actually landing on my live project links.
-2. **Configuration Inertia:** If I needed to connect an external testing, telemetry, or code analysis endpoint across my profile, I faced a daunting reality—manually opening, configuring, and updating 93 separate repository settings pages. 
+2. **Configuration Inertia:** If I needed to connect an external testing, telemetry, or code analysis endpoint across my profile, I faced a daunting reality—manually opening, configuring, and updating  separate repository settings pages. 
 
 As an engineer, I recognized that performing this manually was a failure of automation. I needed an autonomous, highly secure, unified dashboard to manage this ecosystem.
 
@@ -49,14 +49,14 @@ Tech stacks require robust access controls. I engineered an explicit **Sidebar S
 To map my productivity timeline without standard valleys or drops, I designed an analytical data pipeline using **Pandas**. The script loops through my profile, extracts repository historical creation timestamps, and pipes them into a mathematical accumulation query (`.cumsum()`). This outputs an unbroken, upward-climbing cumulative trend chart that tops out perfectly at my active repository counter—providing an absolute, scaling data model.
 
 ### 🔹 Idempotent Bulk Sync Matrix
-To eliminate manual site clicks, I tapped into the GitHub REST API via `PyGithub` to construct an infrastructure synchronization engine. With a single action, the application loops through my account, injecting webhook event listeners across all 93 target code repositories concurrently. 
+To eliminate manual site clicks, I tapped into the GitHub REST API via `PyGithub` to construct an infrastructure synchronization engine. With a single action, the application loops through my account, injecting webhook event listeners across all  target code repositories concurrently. 
 
 To ensure the loop was completely bulletproof, I programmed **Idempotent Safety Logic** into the exception boundaries. If a repository already has the webhook running from a previous installation, the app gracefully catches the standard status code, skips modification, logs it visually on-screen, and jumps to the next repository without duplicating entries or risking API throttling.
 
 ---
 
 ## 🏆 Chapter 3: The Engineering Impact
-This project transforms a sprawling group of 93 disconnected repositories into a unified, secure, self-monitoring cloud architecture. 
+This project transforms a sprawling group of  disconnected repositories into a unified, secure, self-monitoring cloud architecture. 
 
 For technical interviewers and hiring managers, this system demonstrates production-ready engineering choices:
 * Shifting from raw script execution to **abstracted cloud data pipelines**.
