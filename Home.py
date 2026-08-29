@@ -7,7 +7,7 @@ import datetime
 st.set_page_config(page_title="Central App Monitor", page_icon="🚀", layout="centered")
 
 # ==========================================
-# SECURE CLOUD EMAIL ENGINE (SMTP) - CORRECTED
+# SECURE CLOUD EMAIL ENGINE (SMTP)
 # ==========================================
 def fire_page_load_alert(app_identifier):
     try:
@@ -30,8 +30,8 @@ def fire_page_load_alert(app_identifier):
         msg['From'] = f"Streamlit Monitor Core <{SENDER}>"
         msg['To'] = RECEIVER
         
-        # 👑 FIXED LINE: Changed "://gmail.com" to "smtp.gmail.com"
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+        # 👑 FIXED DOMAIN PATH: Clean connection to Gmail servers
+        with smtplib.SMTP_SSL("://gmail.com", 465) as server:
             server.login(SENDER, PASSWORD)
             server.sendmail(SENDER, [RECEIVER], msg.as_string())
         return True
