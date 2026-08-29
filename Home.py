@@ -2,9 +2,30 @@ import streamlit as st
 import smtplib
 from email.mime.text import MIMEText
 import datetime
+import logging
 
 # Must be the absolute first line of Streamlit code execution
 st.set_page_config(page_title="Central App Monitor", page_icon="🚀", layout="centered")
+
+# ==============================================================================
+# 2. FORCE STREAMLIT CHROMIUM HIDING LAYERS & GAP FIX
+# ==============================================================================
+st.markdown(""" 
+ <style> 
+ header[data-testid="stHeader"] { visibility: hidden !important; display: none !important; } 
+ div[data-testid="stToolbar"] { visibility: hidden !important; display: none !important; } 
+ footer { visibility: hidden !important; } 
+ 
+ [data-testid="stMainBlockContainer"] { padding-top: 1rem !important; }
+ .main .block-container { padding-top: 1rem !important; }
+ div[data-testid="stMetricValue"] { font-size: 28px; font-weight: 700; color: #0066cc; }
+ div[data-testid="stMetricLabel"] { font-size: 14px; color: #4B5563; text-transform: uppercase; letter-spacing: 0.5px; }
+ h1 { color: #0066cc; font-weight: 800; }
+ </style> 
+ """, unsafe_allow_html=True) 
+
+logging.basicConfig(level=logging.INFO) 
+logger = logging.getLogger("FIREWALL") 
 
 # ==========================================
 # SECURE CLOUD EMAIL ENGINE (SMTP)
